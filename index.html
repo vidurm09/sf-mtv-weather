@@ -51,15 +51,11 @@
         <h1 class="text-3xl font-bold text-center mb-8">Live Weather Dashboard</h1>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Location 1 -->
+            <!-- Location 1: San Francisco -->
             <div id="location-1" class="bg-gray-800 p-6 rounded-lg shadow-lg relative">
-                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
+                <div class="flex justify-center items-center mb-4">
                     <h2 id="location-name-1" class="text-2xl font-semibold">Loading...</h2>
-                    <div class="flex w-full sm:w-auto">
-                        <input type="text" id="location-input-1" class="w-full bg-gray-700 text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter a location...">
-                    </div>
                 </div>
-
                 <div id="weather-content-1">
                     <!-- Current Weather -->
                     <div class="text-center mb-6">
@@ -76,9 +72,7 @@
 
                     <!-- Hourly Forecast -->
                     <h3 class="text-xl font-semibold mb-3">Hourly Forecast</h3>
-                    <div id="hourly-forecast-1" class="hourly-forecast flex overflow-x-auto space-x-4 pb-4">
-                        <!-- Hourly items will be injected here by JS -->
-                    </div>
+                    <div id="hourly-forecast-1" class="hourly-forecast flex overflow-x-auto space-x-4 pb-4"></div>
 
                     <!-- Graphs -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
@@ -94,15 +88,11 @@
                 </div>
             </div>
 
-            <!-- Location 2 -->
+            <!-- Location 2: Mountain View -->
             <div id="location-2" class="bg-gray-800 p-6 rounded-lg shadow-lg relative">
-                 <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
+                <div class="flex justify-center items-center mb-4">
                     <h2 id="location-name-2" class="text-2xl font-semibold">Loading...</h2>
-                     <div class="flex w-full sm:w-auto">
-                        <input type="text" id="location-input-2" class="w-full bg-gray-700 text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter a location...">
-                    </div>
                 </div>
-
                 <div id="weather-content-2">
                     <!-- Current Weather -->
                     <div class="text-center mb-6">
@@ -119,9 +109,7 @@
 
                     <!-- Hourly Forecast -->
                     <h3 class="text-xl font-semibold mb-3">Hourly Forecast</h3>
-                    <div id="hourly-forecast-2" class="hourly-forecast flex overflow-x-auto space-x-4 pb-4">
-                        <!-- Hourly items will be injected here by JS -->
-                    </div>
+                    <div id="hourly-forecast-2" class="hourly-forecast flex overflow-x-auto space-x-4 pb-4"></div>
 
                     <!-- Graphs -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
@@ -142,55 +130,12 @@
     <script>
         let chartInstances = { 1: {}, 2: {} };
 
-        // WMO Weather interpretation codes mapped to Font Awesome icons
         const wmoWeatherIcons = {
-            // Day Icons
             day: {
-                0: { description: 'Clear sky', icon: 'fa-sun', color: 'text-yellow-400' },
-                1: { description: 'Mainly clear', icon: 'fa-cloud-sun', color: 'text-yellow-300' },
-                2: { description: 'Partly cloudy', icon: 'fa-cloud', color: 'text-gray-400' },
-                3: { description: 'Overcast', icon: 'fa-cloud', color: 'text-gray-500' },
-                45: { description: 'Fog', icon: 'fa-smog', color: 'text-gray-500' },
-                48: { description: 'Rime fog', icon: 'fa-smog', color: 'text-gray-500' },
-                51: { description: 'Light drizzle', icon: 'fa-cloud-rain', color: 'text-blue-300' },
-                53: { description: 'Moderate drizzle', icon: 'fa-cloud-rain', color: 'text-blue-400' },
-                55: { description: 'Dense drizzle', icon: 'fa-cloud-showers-heavy', color: 'text-blue-500' },
-                61: { description: 'Slight rain', icon: 'fa-cloud-sun-rain', color: 'text-blue-300' },
-                63: { description: 'Moderate rain', icon: 'fa-cloud-showers-heavy', color: 'text-blue-400' },
-                65: { description: 'Heavy rain', icon: 'fa-cloud-showers-heavy', color: 'text-blue-500' },
-                71: { description: 'Slight snow fall', icon: 'fa-snowflake', color: 'text-blue-200' },
-                73: { description: 'Moderate snow fall', icon: 'fa-snowflake', color: 'text-blue-200' },
-                75: { description: 'Heavy snow fall', icon: 'fa-snowflake', color: 'text-blue-200' },
-                80: { description: 'Slight rain showers', icon: 'fa-cloud-sun-rain', color: 'text-blue-300' },
-                81: { description: 'Moderate rain showers', icon: 'fa-cloud-showers-heavy', color: 'text-blue-400' },
-                82: { description: 'Violent rain showers', icon: 'fa-cloud-showers-heavy', color: 'text-blue-500' },
-                85: { description: 'Slight snow showers', icon: 'fa-snowflake', color: 'text-blue-200' },
-                86: { description: 'Heavy snow showers', icon: 'fa-snowflake', color: 'text-blue-200' },
-                95: { description: 'Thunderstorm', icon: 'fa-bolt', color: 'text-yellow-500' },
+                0: { description: 'Clear sky', icon: 'fa-sun', color: 'text-yellow-400' }, 1: { description: 'Mainly clear', icon: 'fa-cloud-sun', color: 'text-yellow-300' }, 2: { description: 'Partly cloudy', icon: 'fa-cloud', color: 'text-gray-400' }, 3: { description: 'Overcast', icon: 'fa-cloud', color: 'text-gray-500' }, 45: { description: 'Fog', icon: 'fa-smog', color: 'text-gray-500' }, 48: { description: 'Rime fog', icon: 'fa-smog', color: 'text-gray-500' }, 51: { description: 'Light drizzle', icon: 'fa-cloud-rain', color: 'text-blue-300' }, 53: { description: 'Moderate drizzle', icon: 'fa-cloud-rain', color: 'text-blue-400' }, 55: { description: 'Dense drizzle', icon: 'fa-cloud-showers-heavy', color: 'text-blue-500' }, 61: { description: 'Slight rain', icon: 'fa-cloud-sun-rain', color: 'text-blue-300' }, 63: { description: 'Moderate rain', icon: 'fa-cloud-showers-heavy', color: 'text-blue-400' }, 65: { description: 'Heavy rain', icon: 'fa-cloud-showers-heavy', color: 'text-blue-500' }, 71: { description: 'Slight snow fall', icon: 'fa-snowflake', color: 'text-blue-200' }, 73: { description: 'Moderate snow fall', icon: 'fa-snowflake', color: 'text-blue-200' }, 75: { description: 'Heavy snow fall', icon: 'fa-snowflake', color: 'text-blue-200' }, 80: { description: 'Slight rain showers', icon: 'fa-cloud-sun-rain', color: 'text-blue-300' }, 81: { description: 'Moderate rain showers', icon: 'fa-cloud-showers-heavy', color: 'text-blue-400' }, 82: { description: 'Violent rain showers', icon: 'fa-cloud-showers-heavy', color: 'text-blue-500' }, 85: { description: 'Slight snow showers', icon: 'fa-snowflake', color: 'text-blue-200' }, 86: { description: 'Heavy snow showers', icon: 'fa-snowflake', color: 'text-blue-200' }, 95: { description: 'Thunderstorm', icon: 'fa-bolt', color: 'text-yellow-500' },
             },
-            // Night Icons
             night: {
-                0: { description: 'Clear sky', icon: 'fa-moon', color: 'text-blue-200' },
-                1: { description: 'Mainly clear', icon: 'fa-cloud-moon', color: 'text-blue-300' },
-                2: { description: 'Partly cloudy', icon: 'fa-cloud', color: 'text-gray-400' },
-                3: { description: 'Overcast', icon: 'fa-cloud', color: 'text-gray-500' },
-                45: { description: 'Fog', icon: 'fa-smog', color: 'text-gray-500' },
-                48: { description: 'Rime fog', icon: 'fa-smog', color: 'text-gray-500' },
-                51: { description: 'Light drizzle', icon: 'fa-cloud-rain', color: 'text-blue-300' },
-                53: { description: 'Moderate drizzle', icon: 'fa-cloud-rain', color: 'text-blue-400' },
-                55: { description: 'Dense drizzle', icon: 'fa-cloud-showers-heavy', color: 'text-blue-500' },
-                61: { description: 'Slight rain', icon: 'fa-cloud-moon-rain', color: 'text-blue-300' },
-                63: { description: 'Moderate rain', icon: 'fa-cloud-showers-heavy', color: 'text-blue-400' },
-                65: { description: 'Heavy rain', icon: 'fa-cloud-showers-heavy', color: 'text-blue-500' },
-                71: { description: 'Slight snow fall', icon: 'fa-snowflake', color: 'text-blue-200' },
-                73: { description: 'Moderate snow fall', icon: 'fa-snowflake', color: 'text-blue-200' },
-                75: { description: 'Heavy snow fall', icon: 'fa-snowflake', color: 'text-blue-200' },
-                80: { description: 'Slight rain showers', icon: 'fa-cloud-moon-rain', color: 'text-blue-300' },
-                81: { description: 'Moderate rain showers', icon: 'fa-cloud-showers-heavy', color: 'text-blue-400' },
-                82: { description: 'Violent rain showers', icon: 'fa-cloud-showers-heavy', color: 'text-blue-500' },
-                85: { description: 'Slight snow showers', icon: 'fa-snowflake', color: 'text-blue-200' },
-                86: { description: 'Heavy snow showers', icon: 'fa-snowflake', color: 'text-blue-200' },
-                95: { description: 'Thunderstorm', icon: 'fa-bolt', color: 'text-yellow-500' },
+                0: { description: 'Clear sky', icon: 'fa-moon', color: 'text-blue-200' }, 1: { description: 'Mainly clear', icon: 'fa-cloud-moon', color: 'text-blue-300' }, 2: { description: 'Partly cloudy', icon: 'fa-cloud', color: 'text-gray-400' }, 3: { description: 'Overcast', icon: 'fa-cloud', color: 'text-gray-500' }, 45: { description: 'Fog', icon: 'fa-smog', color: 'text-gray-500' }, 48: { description: 'Rime fog', icon: 'fa-smog', color: 'text-gray-500' }, 51: { description: 'Light drizzle', icon: 'fa-cloud-rain', color: 'text-blue-300' }, 53: { description: 'Moderate drizzle', icon: 'fa-cloud-rain', color: 'text-blue-400' }, 55: { description: 'Dense drizzle', icon: 'fa-cloud-showers-heavy', color: 'text-blue-500' }, 61: { description: 'Slight rain', icon: 'fa-cloud-moon-rain', color: 'text-blue-300' }, 63: { description: 'Moderate rain', icon: 'fa-cloud-showers-heavy', color: 'text-blue-400' }, 65: { description: 'Heavy rain', icon: 'fa-cloud-showers-heavy', color: 'text-blue-500' }, 71: { description: 'Slight snow fall', icon: 'fa-snowflake', color: 'text-blue-200' }, 73: { description: 'Moderate snow fall', icon: 'fa-snowflake', color: 'text-blue-200' }, 75: { description: 'Heavy snow fall', icon: 'fa-snowflake', color: 'text-blue-200' }, 80: { description: 'Slight rain showers', icon: 'fa-cloud-moon-rain', color: 'text-blue-300' }, 81: { description: 'Moderate rain showers', icon: 'fa-cloud-showers-heavy', color: 'text-blue-400' }, 82: { description: 'Violent rain showers', icon: 'fa-cloud-showers-heavy', color: 'text-blue-500' }, 85: { description: 'Slight snow showers', icon: 'fa-snowflake', color: 'text-blue-200' }, 86: { description: 'Heavy snow showers', icon: 'fa-snowflake', color: 'text-blue-200' }, 95: { description: 'Thunderstorm', icon: 'fa-bolt', color: 'text-yellow-500' },
             }
         };
         
@@ -221,58 +166,24 @@
         }
 
         async function getWeather(locationId, locationInfo = null) {
-            const input = document.getElementById(`location-input-${locationId}`);
-            // If locationInfo is not provided, use the input field's value.
-            const locationQuery = locationInfo || input.value.trim();
-            
-            if (!locationQuery) {
-                showError(locationId, "Please enter a location.");
+            if (!locationInfo) {
+                showError(locationId, "Location information is missing.");
                 return;
             }
             
             showLoader(locationId);
             
             try {
-                let latitude, longitude, displayName;
-
-                // Check if locationInfo is an object with coordinates
-                if (typeof locationQuery === 'object' && locationQuery.lat && locationQuery.lon) {
-                    latitude = locationQuery.lat;
-                    longitude = locationQuery.lon;
-                    displayName = locationQuery.name || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
-                } else {
-                    // Otherwise, assume it's a string and geocode it
-                    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(locationQuery)}&count=1&language=en&format=json`;
-                    const geoResponse = await fetch(geoUrl);
-                    const geoData = await geoResponse.json();
-
-                    if (!geoData.results || geoData.results.length === 0) {
-                        throw new Error(`Location "${locationQuery}" not found. Please check the spelling.`);
-                    }
-                    const geoResult = geoData.results[0];
-                    latitude = geoResult.latitude;
-                    longitude = geoResult.longitude;
-                    displayName = `${geoResult.name}, ${geoResult.admin1 || geoResult.country}`;
-                }
-
-
-                // 2. Get weather data from coordinates using Open-Meteo's Forecast API
+                const { lat, lon, name } = locationInfo;
+                
                 const weatherParams = new URLSearchParams({
-                    latitude,
-                    longitude,
-                    current: 'temperature_2m,weather_code,is_day',
-                    hourly: 'temperature_2m,precipitation_probability,weather_code',
-                    daily: 'weather_code,temperature_2m_max,temperature_2m_min,uv_index_max',
-                    temperature_unit: 'fahrenheit',
-                    wind_speed_unit: 'mph',
-                    precipitation_unit: 'inch',
-                    timezone: 'auto'
+                    latitude: lat, longitude: lon, current: 'temperature_2m,weather_code,is_day', hourly: 'temperature_2m,precipitation_probability,weather_code,uv_index', daily: 'weather_code,temperature_2m_max,temperature_2m_min,uv_index_max', temperature_unit: 'fahrenheit', wind_speed_unit: 'mph', precipitation_unit: 'inch', timezone: 'auto', past_days: 1
                 });
                 const weatherUrl = `https://api.open-meteo.com/v1/forecast?${weatherParams}`;
                 const weatherResponse = await fetch(weatherUrl);
                 const weatherData = await weatherResponse.json();
 
-                updateUI(locationId, weatherData, displayName);
+                updateUI(locationId, weatherData, name);
 
             } catch (error) {
                 console.error("Error fetching weather data:", error);
@@ -281,19 +192,16 @@
                 hideLoader(locationId);
             }
         }
-
+        
         function updateUI(locationId, data, displayName) {
             document.getElementById(`location-name-${locationId}`).textContent = displayName;
             
             const { current, daily, hourly } = data;
-            
-            // Determine day or night for current icon
             const isDay = current.is_day;
             const currentWmoCode = current.weather_code;
             const currentIconSet = isDay ? wmoWeatherIcons.day : wmoWeatherIcons.night;
-            const weatherIconData = currentIconSet[currentWmoCode] || wmoWeatherIcons.day[2]; // Fallback to partly cloudy
+            const weatherIconData = currentIconSet[currentWmoCode] || wmoWeatherIcons.day[2];
 
-            // Update current weather UI
             document.getElementById(`weather-description-${locationId}`).textContent = weatherIconData.description;
             document.getElementById(`current-temp-${locationId}`).innerHTML = `${Math.round(current.temperature_2m)}°`;
             document.getElementById(`high-temp-${locationId}`).innerHTML = `${Math.round(daily.temperature_2m_max[0])}°`;
@@ -302,44 +210,41 @@
             const iconEl = document.getElementById(`weather-icon-${locationId}`);
             iconEl.className = `fas ${weatherIconData.icon} text-6xl ${weatherIconData.color}`;
 
-            // Update hourly forecast UI
             const hourlyContainer = document.getElementById(`hourly-forecast-${locationId}`);
             hourlyContainer.innerHTML = '';
-            for (let i = 0; i < 24; i++) {
+
+            const now = new Date();
+            const futureIndex = hourly.time.findIndex(t => new Date(t) > now);
+            let startIndex = Math.max(0, futureIndex - 1);
+            const endIndex = startIndex + 24;
+
+            for (let i = startIndex; i < endIndex && i < hourly.time.length; i++) {
                 const date = new Date(hourly.time[i]);
                 const temp = hourly.temperature_2m[i];
                 const wmoCode = hourly.weather_code[i];
-
                 const hourOfDay = date.getHours();
                 const hourlyIconSet = (hourOfDay >= 6 && hourOfDay < 19) ? wmoWeatherIcons.day : wmoWeatherIcons.night;
                 const hourIconData = hourlyIconSet[wmoCode] || wmoWeatherIcons.day[2];
-
                 const hourEl = document.createElement('div');
                 hourEl.className = 'flex flex-col items-center space-y-1 p-2 rounded-lg bg-gray-700/50 flex-shrink-0';
-                
                 const timeString = date.toLocaleTimeString([], { hour: 'numeric', hour12: true }).replace(' ', '');
-
-                hourEl.innerHTML = `
-                    <p class="text-sm text-gray-300">${timeString}</p>
-                    <i class="fas ${hourIconData.icon} text-2xl ${hourIconData.color}"></i>
-                    <p class="font-semibold">${Math.round(temp)}°</p>
-                `;
+                hourEl.innerHTML = `<p class="text-sm text-gray-300">${timeString}</p><i class="fas ${hourIconData.icon} text-2xl ${hourIconData.color}"></i><p class="font-semibold">${Math.round(temp)}°</p>`;
                 hourlyContainer.appendChild(hourEl);
             }
-
-            // Update UV Index Chart
-            const peakUVI = daily.uv_index_max[0];
-            const uvData = Array.from({ length: 12 }, (_, i) => {
-                 const hourOfDay = i + 8; // from 8am to 7pm
-                 const peakHour = 13; // 1pm
-                 const value = Math.max(0, peakUVI * Math.exp(-((hourOfDay - peakHour) ** 2) / 10));
-                 return value.toFixed(1);
-            });
-            createUVChart(locationId, uvData);
             
-            // Update Precipitation Chart
-            const precipData = hourly.precipitation_probability.slice(0, 24);
-            createPrecipitationChart(locationId, precipData);
+            const todayStr = new Date().toISOString().slice(0, 10);
+            const pastAndTodayUVData = hourly.time
+                .map((t, i) => ({ time: new Date(t), uv: hourly.uv_index[i] }))
+                .filter(d => d.time.toISOString().slice(0,10) === todayStr && d.uv > 0);
+
+            const uvLabels = pastAndTodayUVData.map(d => d.time.toLocaleTimeString([], { hour: 'numeric', hour12: true }).replace(' ', ''));
+            const uvData = pastAndTodayUVData.map(d => d.uv);
+            
+            createUVChart(locationId, uvData, uvLabels);
+            
+            const precipData = hourly.precipitation_probability.slice(startIndex, endIndex);
+            const precipLabels = hourly.time.slice(startIndex, endIndex).map(t => new Date(t).toLocaleTimeString([], { hour: 'numeric', hour12: true }).replace(' ', ''));
+            createPrecipitationChart(locationId, precipData, precipLabels);
         }
 
         function createChart(locationId, chartElementId, instanceName, config) {
@@ -350,62 +255,28 @@
             chartInstances[locationId][instanceName] = new Chart(ctx, config);
         }
 
-        function createUVChart(locationId, uvData) {
+        function createUVChart(locationId, uvData, uvLabels) {
             const chartConfig = {
                 type: 'line',
-                data: {
-                    labels: ['8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'],
-                    datasets: [{
-                        label: 'UV Index',
-                        data: uvData,
-                        backgroundColor: 'rgba(139, 92, 246, 0.2)',
-                        borderColor: 'rgba(139, 92, 246, 1)',
-                        borderWidth: 2, fill: true, tension: 0.4,
-                        pointBackgroundColor: 'rgba(139, 92, 246, 1)',
-                    }]
-                },
-                options: { scales: { y: { beginAtZero: true, max: 12, ticks: { color: '#9CA3AF' }}, x: { ticks: { color: '#9CA3AF' }}}, plugins: { legend: { display: false } } }
+                data: { labels: uvLabels, datasets: [{ label: 'UV Index', data: uvData, backgroundColor: 'rgba(139, 92, 246, 0.2)', borderColor: 'rgba(139, 92, 246, 1)', borderWidth: 2, fill: true, tension: 0.4, pointBackgroundColor: 'rgba(139, 92, 246, 1)', }] },
+                options: { scales: { y: { beginAtZero: true, max: 12, ticks: { color: '#9CA3AF' }}, x: { ticks: { color: '#9CA3AF', maxRotation: 90, minRotation: 70 }}}, plugins: { legend: { display: false } } }
             };
             createChart(locationId, `uv-chart-${locationId}`, 'uvChart', chartConfig);
         }
         
-        function createPrecipitationChart(locationId, precipData) {
+        function createPrecipitationChart(locationId, precipData, precipLabels) {
             const chartConfig = {
                 type: 'bar',
-                data: {
-                    labels: Array.from({length: 24}, (_, i) => new Date(Date.now() + i * 3600 * 1000).toLocaleTimeString([], {hour: 'numeric', hour12: true})),
-                    datasets: [{
-                        label: 'Precipitation Chance',
-                        data: precipData,
-                        backgroundColor: 'rgba(59, 130, 246, 0.5)',
-                        borderColor: 'rgba(59, 130, 246, 1)',
-                        borderWidth: 1
-                    }]
-                },
+                data: { labels: precipLabels, datasets: [{ label: 'Precipitation Chance', data: precipData, backgroundColor: 'rgba(59, 130, 246, 0.5)', borderColor: 'rgba(59, 130, 246, 1)', borderWidth: 1 }] },
                 options: { scales: { y: { beginAtZero: true, max: 100, ticks: { color: '#9CA3AF', callback: v => v + '%' }}, x: { ticks: { color: '#9CA3AF', maxRotation: 90, minRotation: 70 }}}, plugins: { legend: { display: false } } }
             };
             createChart(locationId, `precipitation-chart-${locationId}`, 'precipitationChart', chartConfig);
         }
         
-        function addInputListeners() {
-            document.getElementById('location-input-1').addEventListener('keyup', (event) => {
-                if (event.key === 'Enter') {
-                    getWeather(1);
-                }
-            });
-             document.getElementById('location-input-2').addEventListener('keyup', (event) => {
-                if (event.key === 'Enter') {
-                    getWeather(2);
-                }
-            });
-        }
-
         window.onload = () => {
             getWeather(1, { lat: 37.7713, lon: -122.4363, name: "San Francisco, CA" });
             getWeather(2, { lat: 37.422543, lon: -122.087674, name: "Mountain View, CA" });
-            addInputListeners();
         };
     </script>
 </body>
 </html>
-
